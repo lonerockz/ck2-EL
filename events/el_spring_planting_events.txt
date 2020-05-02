@@ -1,0 +1,690 @@
+###################################
+#
+# Events for spring planting
+#
+# IDs from 100-199 are alwyas start events 
+#
+# IDs from 901-999 are alwyas end events 
+#
+# IDs from 1x00-2x00 are for host events
+#
+# IDs from 3x00+ are for guests
+#
+# Fired from on actions
+#
+###################################
+#
+# Designed & Written by Dr. Bad Ideaz
+#
+###################################
+
+namespace = el_spring_planting
+
+###################################
+#Events before the Spring Planting
+#
+# 1 How would you like to spend on food? 101
+#
+# 2 How would you like to spend on entertainment? 102
+#
+# 3 Your clergy ask to keep it tame? 103
+#
+###################################
+character_event = {
+	id = el_spring_planting.10
+	desc = "el_sp_EVTDESC10"
+	picture = GFX_evt_feast
+	
+	is_triggered_only = yes
+
+	option = {
+		name = "el_sp_EVTOPTA10"
+		hidden_tooltip = {
+			random_list = {
+				10 = {
+					modifier = {
+						factor = 0
+						has_character_flag = el_sp_food_set
+					}
+					
+					set_character_flag = el_sp_food_set
+					character_event = {
+						id = el_spring_planting.101 # Food Expenditure
+						days = 5
+						random = 3
+					}
+				}
+				10 = {
+					modifier = {
+						factor = 0
+						has_character_flag = el_sp_entertainment_set
+					}
+					set_character_flag = el_sp_entertainment_set
+					character_event = {
+						id = el_spring_planting.102 # Setting up the entertaiment
+						days = 5
+						random = 3
+					}
+				}
+				10 = {
+					modifier = {
+						factor = 0
+						has_character_flag = el_sp_morality_set
+					}
+					set_character_flag = el_sp_morality_set
+					if = {
+						limit = {
+							any_courtier_or_vassal = { 
+								has_job_title = job_spiritual 
+								or= {
+									trait = decadent
+									trait = bad_priest_christian
+									trait = bad_priest_aztec
+									trait = bad_priest_muslim
+									trait = lustful
+									trait = hedonist
+									trait = seducer
+									trait = seductress
+								}
+							}
+						}
+						set_character_flag = el_sp_bad_priest_entertainment
+						if = {
+							limit = {
+								NOR = { 
+									trait = celibate 
+									trait = chaste
+								}
+							}
+							character_event = {
+								id = el_spring_planting.104 # Bad Priest
+								days = 5
+								random = 3
+							}
+						}
+						else ={
+							character_event = {
+								id = el_spring_planting.103 # Bad Priest
+								days = 5
+								random = 3
+							}
+						}	
+					}
+					else = {
+						character_event = {
+							id = el_spring_planting.103 # Keeping it tame
+							days = 5
+							random = 3
+						}
+					}
+					
+				}
+				fallback = {
+					set_character_flag = el_sp_preperations_in_motion
+					character_event = {
+						id = el_spring_planting.20 # preperations done
+						days = 5
+						random = 3
+					}
+				}
+			}
+		}
+	}
+}
+
+#Food Preparations
+character_event = {
+	id = el_spring_planting.101
+	desc = "el_sp_EVTDESC101"
+	picture = GFX_evt_feast
+
+	only_rulers = yes
+	capable_only = yes
+	prisoner = no
+	war = no
+
+	is_triggered_only = yes
+
+	trigger = {
+		has_character_flag = el_sp_food_set
+		NOT = {
+			has_character_flag = el_sp_lavishly_food
+		}
+		NOT = {
+			has_character_flag = el_sp_medium_food
+		}
+		NOT = {
+			has_character_flag = el_sp_low_food
+		}
+		NOT = {
+			has_character_flag = el_sp_cheap_food
+		}
+	}
+
+	option = {
+		name = "el_sp_EVTOPTA101" #Spend lavishly on food
+		trigger = { NOT = { trait = temperate } }
+		gain_weight_small_effect = yes
+		weight_trait_check_effect = yes
+		ai_chance = {
+			factor = 30
+			modifier = {
+				factor = 0.5
+				trait = greedy
+			}
+			modifier = {
+				factor = 3
+				or = {
+					trait = gluttonous
+					trait = hedonist
+				}
+			}
+			modifier = {
+				factor = 0.1
+				trait = temperate
+			}
+			modifier = {
+				factor = 2
+				primary_title = { higher_tier_than = DUKE }
+			}
+		}
+		set_character_flag = el_sp_lavishly_food
+		treasury = -20
+		prestige = 10
+		hidden_tooltip = {
+			character_event = {
+				id = el_spring_planting.10
+				days = 1
+				random = 3
+			}
+		}
+	}
+	option = {
+		name = "el_sp_EVTOPTB101" #Spend medium on food
+		ai_chance = {
+			factor = 30
+
+			modifier = {
+				factor = 0.5
+				NOT = { trait = greedy }
+			}
+			modifier = {
+				factor = 2
+				NOR = {
+					trait = gluttonous
+					trait = hedonist
+				}
+			}
+			modifier = {
+				factor = 2
+				primary_title = { tier = DUKE }
+			}
+		}
+		set_character_flag = el_sp_medium_food
+		treasury = -10
+		hidden_tooltip = {
+			character_event = {
+				id = el_spring_planting.10
+				days = 1
+				random = 3
+			}
+		}
+
+	}
+	option = {
+		name = "el_sp_EVTOPTC101" #Spend low on food
+		trigger = { NOT = { trait = gluttonous } }
+		ai_chance = {
+			factor = 30
+
+			modifier = {
+				factor = 2.5
+				trait = greedy
+			}
+			modifier = {
+				factor = 0.1
+				or = {
+					trait = gluttonous
+					trait = hedonist
+				}
+			}
+			modifier = {
+				factor = 2
+				primary_title = { tier = COUNT }
+			}
+		}
+		set_character_flag = el_sp_low_food
+		treasury = -5
+		prestige = -5
+		hidden_tooltip = {
+			character_event = {
+				id = el_spring_planting.10
+				days = 1
+				random = 3
+			}
+		}
+	}
+	option = {
+		name = "el_sp_EVTOPTD101" #High stewardship option
+		trigger = { 
+			stewardship = 10
+		}
+		tooltip_info = stewardship
+		ai_chance = {
+			factor = 30
+
+			modifier = {
+				factor = 2.5
+				trait = greedy
+			}
+			modifier = {
+				factor = 0.1
+				trait = gluttonous
+			}
+		}
+		random_list = {
+			10 = {
+				set_character_flag = el_sp_cheap_food
+				treasury = -5
+				modifier = {
+					factor = 1.5
+					trait = greedy
+				}
+				modifier = {
+					factor = 1.5
+					trait = temperate
+				}
+				character_event = { 
+					id = el_spring_planting.10 
+					days = 1
+					random = 3
+				}
+			}
+			10 = {
+				set_character_flag = el_sp_medium_food
+				treasury = -5
+				prestige = 5
+				modifier = {
+					factor = 1.25
+					stewardship = 15
+				}
+				character_event = { 
+					id = el_spring_planting.10 
+					days = 1
+					random = 3
+				}
+			}
+			10 = {
+				set_character_flag = el_sp_lavishly_food
+				treasury = -20
+				prestige = 15
+				modifier = {
+					factor = 1.25
+					stewardship = 20
+				}
+				character_event = { 
+					id = el_spring_planting.10 
+					days = 1
+					random = 3
+				}
+			}
+		}		
+	}
+}
+
+#Entertainment Preparations
+character_event = {
+	id = el_spring_planting.102
+	desc = "el_sp_EVTDESC102"
+	picture = GFX_evt_feast
+
+	only_rulers = yes
+	capable_only = yes
+	prisoner = no
+	war = no
+
+	is_triggered_only = yes
+
+	trigger = {
+		has_character_flag = el_sp_entertainment_set
+		NOT = {
+			has_character_flag = el_sp_grand_entertainment
+		}
+		NOT = {
+			has_character_flag = el_sp_local_entertainment
+		}
+		NOT = {
+			has_character_flag = el_sp_poor_entertainment
+		}
+	}
+
+	option = {
+		name = "el_sp_EVTOPTA102" #Grand entertainment
+		ai_chance = {
+			factor = 30
+			modifier = {
+				factor = 2.5
+				trait = hedonist
+			}
+			modifier = {
+				factor = 2
+				or = {
+					trait = socializer
+					trait = proud
+				}
+			}
+			modifier = {
+				factor = 0.5
+				or = {
+					trait = greedy
+					trait = shy	
+				}
+			}
+		}
+		set_character_flag = el_sp_grand_entertainment
+		treasury = -30
+		prestige = 20
+		hidden_tooltip = {
+			character_event = {
+				id = el_spring_planting.10
+				days = 1
+				random = 3
+			}
+		}
+	}
+	option = {
+		name = "el_sp_EVTOPTB102" #local entertainment
+		ai_chance = {
+			factor = 30
+		}
+		set_character_flag = el_sp_local_entertainment
+		treasury = -10
+		prestige = 10
+		hidden_tooltip = {
+			character_event = {
+				id = el_spring_planting.10
+				days = 1
+				random = 3
+			}
+		}
+
+	}
+	option = {
+		name = "el_sp_EVTOPTC102" #Poor entertainment
+		ai_chance = {
+			factor = 30
+			modifier = {
+				factor = 0.5
+				trait = hedonist
+			}
+			modifier = {
+				factor = 0.5
+				or = {
+					trait = socializer
+					trait = proud
+				}
+			}
+			modifier = {
+				factor = 2
+				or = {
+					trait = greedy
+					trait = shy	
+				}
+			}
+		}
+		set_character_flag = el_sp_poor_entertainment
+		prestige = 5
+		hidden_tooltip = {
+			character_event = {
+				id = el_spring_planting.10
+				days = 1
+				random = 3
+			}
+		}
+	}	
+}
+
+#Morality Preparations
+character_event = {
+	id = el_spring_planting.103
+	desc = "el_sp_EVTDESC103"
+	picture = GFX_evt_feast
+
+	only_rulers = yes
+	capable_only = yes
+	prisoner = no
+	war = no
+
+	is_triggered_only = yes
+
+	trigger = {
+		has_character_flag = el_sp_entertainment_set
+		NOT = {
+			has_character_flag = el_sp_risque_morality
+		}
+		NOT = {
+			has_character_flag = el_sp_tame_morality
+		}
+	}
+
+	option = {
+		name = "el_sp_EVTOPTA103" #risque entertainment
+		trigger = { 
+			NOR = { 
+				trait = celibate 
+				trait = chaste
+			}
+		}
+		ai_chance = {
+			factor = 10
+			modifier = {
+				factor = 2.5
+				trait = seducer
+			}
+			modifier = {
+				factor = 3
+				trait = lustful
+			}
+			modifier = {
+				factor = 0.25
+				trait = temperate
+			}
+		}
+		set_character_flag = el_sp_risque_morality
+		treasury = -20
+		prestige = 10
+		piety = -10
+		hidden_tooltip = {
+			character_event = {
+				id = el_spring_planting.10
+				days = 1
+				random = 3
+			}
+		}
+	}
+	option = {
+		name = "el_sp_EVTOPTB103" #Tame entertainment
+		ai_chance = {
+			factor = 10
+		}
+		set_character_flag = el_sp_tame_morality
+		treasury = -10
+		piety = 10
+		hidden_tooltip = {
+			character_event = {
+				id = el_spring_planting.10
+				days = 1
+				random = 3
+			}
+		}
+
+	}
+	option = {
+		name = "el_sp_EVTOPTC103" #High intrigue option
+		trigger = {
+			intrigue = 12
+			NOR = { 
+				trait = celibate 
+				trait = chaste
+			}
+		}
+		tooltip_info = intrigue
+		ai_chance = {
+			factor = 30
+			modifier = {
+				factor = 2.5
+				or = {
+					trait = lustful
+					trait = hedonist
+				}
+			}
+			modifier = {
+				factor = 3
+				or = {
+					trait = seducer
+					trait = seductress
+				}
+			}
+		}	
+		set_character_flag = el_sp_risque_morality
+		set_character_flag = el_sp_priest_intrigue_entertainment
+		treasury = -20
+		prestige = 10
+		hidden_tooltip = {
+			character_event = {
+				id = el_spring_planting.10
+				days = 1
+				random = 3
+			}
+		}
+	}
+}
+
+#Bad Priest Preparations
+character_event = {
+	id = el_spring_planting.104
+	desc = "el_sp_EVTDESC104"
+	picture = GFX_evt_feast
+
+	only_rulers = yes
+	capable_only = yes
+	prisoner = no
+	war = no
+
+	is_triggered_only = yes
+
+	trigger = {
+		has_character_flag = el_sp_morality_set
+		NOT = {
+			has_character_flag = el_sp_risque_morality
+		}
+		NOT = {
+			has_character_flag = el_sp_tame_morality
+		}
+	}
+
+	option = {
+		name = "el_sp_EVTOPTA104" #Control your impulses Priest!
+		ai_chance = {
+			factor = 30
+			modifier = {
+				factor = 3
+				trait = celibate
+			}
+			modifier = {
+				factor = 2
+				trait = chaste
+			}
+		}
+		set_character_flag = el_sp_tame_morality
+		treasury = -20
+		prestige = 10
+		hidden_tooltip = {
+			character_event = {
+				id = el_spring_planting.10
+				days = 1
+				random = 3
+			}
+		}
+	}
+	option = {
+		name = "el_sp_EVTOPTB104" #Yes think of all the fun we will have!
+		ai_chance = {
+			factor = 30
+			modifier = {
+				factor = 2.5
+				or = {
+					trait = lustful
+					trait = hedonist
+				}
+			}
+			modifier = {
+				factor = 3
+				or = {
+					trait = seducer
+					trait = seductress
+				}
+			}
+		}
+		set_character_flag = el_sp_risque_morality
+		treasury = -20
+		prestige = 10
+		hidden_tooltip = {
+			character_event = {
+				id = el_spring_planting.10
+				days = 1
+				random = 3
+			}
+		}
+	}
+
+}
+
+
+#preperations are done!
+character_event = {
+	id = el_spring_planting.20
+
+	desc = "el_sp_EVTDESC20"
+	picture = GFX_evt_feast
+
+	only_rulers = yes
+	capable_only = yes
+	prisoner = no
+	war = no
+
+	is_triggered_only = yes
+	option = {
+		name = "el_sp_EVTOPTA20"
+	}
+}
+###########################################
+#
+# Final Cleanup event to clear all flags
+#
+# Does not cleanup flags needed for long term feast events (long lost children for example)
+#
+###########################################
+character_event = {
+	id = el_spring_planting.99
+	
+	hide_window = yes
+
+	is_triggered_only = yes
+
+	immediate = {
+		remove_character_modifier = el_holding_large_spring_planting
+		clr_character_flag = el_sp_risque_morality
+		clr_character_flag = el_sp_tame_morality
+		clr_character_flag = el_sp_priest_intrigue_entertainment
+		clr_character_flag = el_sp_lavishly_food
+		clr_character_flag = el_sp_medium_food
+		clr_character_flag = el_sp_low_food
+		clr_character_flag = el_sp_cheap_food
+		clr_character_flag = el_sp_grand_entertainment
+		clr_character_flag = el_sp_local_entertainment
+		clr_character_flag = el_sp_poor_entertainment
+		clr_character_flag = el_sp_preperations_in_motion
+
+	}
+}

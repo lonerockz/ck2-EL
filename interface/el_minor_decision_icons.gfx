@@ -1,0 +1,7 @@
+spriteTypes = {
+	
+	spriteType = {
+		name = "GFX_el_spring_planting"
+		texturefile = "gfx\\interface\\decision_icon_el_spring_planting.dds"
+	}
+}

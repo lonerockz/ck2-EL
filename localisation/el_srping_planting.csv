@@ -1,0 +1,25 @@
+el_spring_planting;Hold a Spring Planting Festival;;;;;;;;;;;;;x
+el_spring_planting_desc;Hold a spring planting festival to ensure a robust harvest!;;;;;;;;;;;;;x
+el_holding_large_spring_planting;Holding a Spring Planting Festival;;;;;;;;;;;;x
+el_capital_prospers_custom_tooltip;The §YProsperity§! of your capital county increases slightly\n;La §Yprospérité§! du comté de la capitale augmente légèrement\n;Der §YWohlstand§! Eurer Hauptgrafschaft steigt leicht an.\n;;La §YProsperidad§! de tu condado capital aumenta ligeramente\n;;;;;;;;;x
+el_sp_EVTDESC10;I have given the orders for a Great Spring Planting Festival to be hosted in [Root.Location.GetName]. Let the preparations begin...;;;;;;;;;;;;;x
+el_sp_EVTOPTA10;And all my vassals will be there...;Et tous les vassaux seront présents...;Und alle meine Vasallen werden kommen ...;;Y todos mis vasallos estarán allí...;;;;;;;;;x
+el_sp_EVTTOOLTIP1000;Invitations are sent.;Les invitations ont ï¿½tï¿½ envoyï¿½es.;Einladungen sind verschickt.;;Enviadas invitaciones.;;;;;;;;;x
+el_sp_EVTDESC101;The people will come far and wide to attend the spring fair! I must think carefully about the kinds of food and drink that will be there. I feel its best that... .;;;;;;;;;;;;;x
+el_sp_EVTOPTA101;The spring fair is a reflection of my stewardship as a ruler! I'll let it be known that I will pay for the food and drink to ensure we have the best!;;;;;;;;;;;;;x
+el_sp_EVTOPTB101;While its important that everyone has a good time, money is limited so I'll just give a little to ensure I don't have to eat what the peasants do.;;;;;;;;;x
+el_sp_EVTOPTC101;Bah! Its just peasants! They have plenty to eat.;;;;;;;;;x
+el_sp_EVTOPTD101;I know how to find a good bargin! I'll make sure we have plenty, and save a bit of money.;;;;;;;;;x
+el_sp_EVTDESC102;The Festival is about more than just food an drink it's the entertainment that set it apart.;;;;;;;;;x
+el_sp_EVTOPTA102;I will dispatch messengers far and wide to ensure that we have the best entertainers in the land!;;;;;;;;;x
+el_sp_EVTOPTB102;My realm has plenty of worthy entertainers. No need to break the bank.;;;;;;;;;x
+el_sp_EVTOPTC102;The peasents can rool around in the mud from teh spring rains!;;;;;;;;;x
+el_sp_EVTDESC103;[Root.job_spiritual.GetTitledFirstName] approchaes you and reminds you of all the ungodley events at the last spring festival, and all the babies born nine months later.;;;;;;;;;x
+el_sp_EVTOPTA103;Spring is the time of the birds and bees counselor! Don't worry I'm sure everything will be fine.;;;;;;;;;x
+el_sp_EVTOPTB103;Yes, you're right of course no need to encourage the peasants to breed like rabbits!;;;;;;;;;x
+el_sp_EVTOPTC103;I remember a time before you put on your robes and vestments... blah... blah...;;;;;;;;;x
+el_sp_EVTDESC104;That letcher [Root.job_spiritual.GetTitledFirstName] pulls you aside by the arm and with a gleam in his eye says: "Nothling like a good spring festival to bring your blood to a good boil! Happy hunting my leige!";;;;;;;;;x
+el_sp_EVTOPTA104;That one is going to be trouble. I'd better make sure the watch is doubled.;;;;;;;;;x
+el_sp_EVTOPTB104;I'll bet you I catch more prey that you!;;;;;;;;;x
+el_sp_EVTDESC20;Finally planning for the Spring Planting Festival  is done!;;;;;;;;;x
+el_sp_EVTOPTA20;I cant wait to see all the peasants in thier festival costumes!;;;;;;;;;x
